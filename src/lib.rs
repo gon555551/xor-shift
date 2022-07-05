@@ -1,13 +1,14 @@
 // n: how many numbers to generate; max: max value of generated numbers; of seed: Vec<u32> of length 4.
+#[allow(unused)]
 pub fn randi_max(n: u32, max: u32, seed: &mut Vec<u32>) -> Vec<u32> {
     let mut result: Vec<u32> = Vec::new();
 
     for _ in 0..n {
-        let tmp: u32 = seed[0] ^ (seed[0] << 15);
+        let t: u32 = seed[0] ^ (seed[0] << 11);
         seed[0] = seed[1];
         seed[1] = seed[2];
         seed[2] = seed[3];
-        seed[3] = ((seed[3] ^ (seed[3] >> 21)) ^ (tmp ^ (tmp >> 4))) % max;
+        seed[3] = ((seed[3] ^ (seed[3] >> 19)) ^ (t ^ (t >> 8))) % max;
 
         result.push(seed[3]);
     }
@@ -16,15 +17,16 @@ pub fn randi_max(n: u32, max: u32, seed: &mut Vec<u32>) -> Vec<u32> {
 }
 
 // n: how many numbers to generate; seed: Vec<u32> of length 4.
+#[allow(unused)]
 pub fn randi(n: u32, seed: &mut Vec<u32>) -> Vec<u32> {
     let mut result: Vec<u32> = Vec::new();
 
     for _ in 0..n {
-        let tmp: u32 = seed[0] ^ (seed[0] << 15);
+        let t: u32 = seed[0] ^ (seed[0] << 11);
         seed[0] = seed[1];
         seed[1] = seed[2];
         seed[2] = seed[3];
-        seed[3] = (seed[3] ^ (seed[3] >> 21)) ^ (tmp ^ (tmp >> 4));
+        seed[3] = (seed[3] ^ (seed[3] >> 19)) ^ (t ^ (t >> 8));
 
         result.push(seed[3]);
     }
